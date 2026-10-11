@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+
 import '../../../core/theme.dart';
 import '../../auth/login/screens/login_screen.dart';
+import '../../auth/services/auth_service.dart';
+import '../../main_navigation/screens/main_navigation_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,22 +16,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToNext();
+    _checkToken();
   }
 
-  Future<void> _navigateToNext() async {
+  Future<void> _checkToken() async {
     await Future.delayed(const Duration(seconds: 2));
-    if (mounted) {
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const LoginScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
-        ),
-      );
-    }
+    final token = await AuthService().getToken();
+    if (!mounted) return;
+
+    final Widget next = (token != null && token.isNotEmpty)
+        ? MainNavigationScreen()
+        : const LoginScreen();
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => next),
+    );
   }
 
   @override
@@ -39,31 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.shopping_bag,
-              size: 120,
-              color: AppTheme.primary,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              'Huma-volve',
-              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                fontSize: 40,
-                color: AppTheme.primary,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Your Ultimate E-Commerce App',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontSize: 16,
-                color: Colors.grey.shade600,
-              ),
-            ),
+            Icon(Icons.shopping_bag, size: 100, color: AppTheme.primary),
             const SizedBox(height: 48),
-            CircularProgressIndicator(
-              color: AppTheme.primary,
-            ),
+            CircularProgressIndicator(color: AppTheme.primary),
           ],
         ),
       ),

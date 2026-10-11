@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../../core/dummy_data.dart';
 import '../../../core/theme.dart';
 import '../widgets/profile_menu_item.dart';
 import '../../auth/login/screens/login_screen.dart';
+import '../../auth/services/auth_service.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -98,7 +99,9 @@ class ProfileScreen extends StatelessWidget {
                     icon: Icons.logout,
                     title: 'Logout',
                     isDestructive: true,
-                    onTap: () {
+                    onTap: () async {
+                      await AuthService().logout();
+                      if (!context.mounted) return;
                       Navigator.pushReplacement(
                         context,
                         PageRouteBuilder(
@@ -119,3 +122,4 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+
