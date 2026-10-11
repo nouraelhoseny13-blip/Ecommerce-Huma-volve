@@ -1,17 +1,51 @@
-# ecommerce_app_huma_volve
+# Ecommerce Huma Volve
 
-A new Flutter project.
+Flutter e-commerce app. **Day 1 task:** implement the Auth feature using the API.
 
-## Getting Started
+## Auth Feature
 
-This project is a starting point for a Flutter application.
+- **Login** with email and password
+- **Sign Up**: creates the account, then logs in automatically
+- **Token storage**: the `access_token` and `refresh_token` are saved with `shared_preferences`
+- **Splash screen**: opens the Home screen if a token is saved, otherwise the Login screen
+- **Logout**: clears the saved tokens and returns to the Login screen
+- Form validation and loading state on the buttons
 
-A few resources to get you started if this is your first Flutter project:
+## API
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+Base URL: `https://api.escuelajs.co/api/v1` ([docs](https://api.escuelajs.co/docs))
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Action | Method | Endpoint |
+|---|---|---|
+| Login | POST | `/auth/login` |
+| Register | POST | `/users` |
+| Profile | GET | `/auth/profile` |
+
+Test account: `john@mail.com` / `changeme`
+
+## Project Structure
+
+```
+lib/
+├── core/                      # theme, shared widgets
+└── features/
+    ├── auth/
+    │   ├── login/screens/
+    │   ├── sign_up/screens/
+    │   └── services/auth_service.dart
+    ├── splash/
+    ├── home/
+    └── profile/
+```
+
+## Run
+
+```bash
+flutter pub get
+flutter run -d chrome
+```
+
+## Packages
+
+- [http](https://pub.dev/packages/http)
+- [shared_preferences](https://pub.dev/packages/shared_preferences)
