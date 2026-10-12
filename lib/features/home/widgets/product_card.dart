@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
-import '../../../core/dummy_data.dart';
+﻿import 'package:flutter/material.dart';
+
 import '../../../core/theme.dart';
 import '../../details/screens/product_details_screen.dart';
+import '../data/home_models.dart';
+import '../data/product_mapper.dart';
 
 class ProductCard extends StatelessWidget {
-  final Product product;
+  final ProductModel product;
 
   const ProductCard({super.key, required this.product});
 
@@ -16,9 +18,10 @@ class ProductCard extends StatelessWidget {
           context,
           PageRouteBuilder(
             transitionDuration: const Duration(milliseconds: 500),
-            pageBuilder: (context, animation, secondaryAnimation) => 
-                ProductDetailsScreen(product: product),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                ProductDetailsScreen(product: product.toLegacyProduct()),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
               return FadeTransition(opacity: animation, child: child);
             },
           ),
@@ -47,12 +50,35 @@ class ProductCard extends StatelessWidget {
                   Hero(
                     tag: 'product-${product.id}',
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(24),
+                      ),
                       child: Image.network(
                         product.imageUrl,
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: double.infinity,
+                        loadingBuilder: (context, child, progress) {
+                          if (progress == null) return child;
+                          return Container(
+                            color: Colors.grey.shade200,
+                            alignment: Alignment.center,
+                            child: const SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          color: Colors.grey.shade200,
+                          alignment: Alignment.center,
+                          child: Icon(
+                            Icons.image_not_supported_outlined,
+                            color: Colors.grey.shade500,
+                            size: 36,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -84,7 +110,7 @@ class ProductCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      product.name,
+                      product.title,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 16,
