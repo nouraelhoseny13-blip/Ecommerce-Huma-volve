@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
+import 'core/injection.dart';
 import 'core/theme.dart';
 import 'features/splash/screens/splash_screen.dart';
 
 void main() {
+  setupDependencies();
   runApp(const MyApp());
 }
 

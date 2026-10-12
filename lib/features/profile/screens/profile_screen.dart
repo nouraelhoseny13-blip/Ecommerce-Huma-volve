@@ -2,8 +2,9 @@
 import '../../../core/dummy_data.dart';
 import '../../../core/theme.dart';
 import '../widgets/profile_menu_item.dart';
-import '../../auth/login/screens/login_screen.dart';
-import '../../auth/services/auth_service.dart';
+import '../../auth/presentation/screens/login_screen.dart';
+import '../../../core/injection.dart';
+import '../../auth/domain/usecases/logout_usecase.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -100,7 +101,7 @@ class ProfileScreen extends StatelessWidget {
                     title: 'Logout',
                     isDestructive: true,
                     onTap: () async {
-                      await AuthService().logout();
+                      await sl<LogoutUseCase>()();
                       if (!context.mounted) return;
                       Navigator.pushReplacement(
                         context,
@@ -122,4 +123,5 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+
 
