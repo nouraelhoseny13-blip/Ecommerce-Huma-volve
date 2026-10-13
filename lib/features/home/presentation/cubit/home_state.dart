@@ -1,12 +1,14 @@
 ﻿import 'package:equatable/equatable.dart';
-import '../data/home_models.dart';
+
+import '../../domain/entities/category_entity.dart';
+import '../../domain/entities/product_entity.dart';
 
 enum HomeStatus { loading, success, error }
 
 class HomeState extends Equatable {
   final HomeStatus status;
-  final List<ProductModel> products;
-  final List<CategoryModel> categories;
+  final List<ProductEntity> products;
+  final List<CategoryEntity> categories;
   final int? selectedCategoryId;
   final String query;
   final String? errorMessage;
@@ -22,8 +24,8 @@ class HomeState extends Equatable {
 
   HomeState copyWith({
     HomeStatus? status,
-    List<ProductModel>? products,
-    List<CategoryModel>? categories,
+    List<ProductEntity>? products,
+    List<CategoryEntity>? categories,
     int? selectedCategoryId,
     bool clearCategory = false,
     String? query,

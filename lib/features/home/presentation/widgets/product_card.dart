@@ -1,12 +1,12 @@
 ﻿import 'package:flutter/material.dart';
 
-import '../../../core/theme.dart';
-import '../../details/screens/product_details_screen.dart';
-import '../data/home_models.dart';
-import '../data/product_mapper.dart';
+import '../../../../core/theme.dart';
+import '../../../details/screens/product_details_screen.dart';
+import '../../domain/entities/product_entity.dart';
+import '../mappers/product_mapper.dart';
 
 class ProductCard extends StatelessWidget {
-  final ProductModel product;
+  final ProductEntity product;
 
   const ProductCard({super.key, required this.product});
 
@@ -155,3 +155,4 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
+

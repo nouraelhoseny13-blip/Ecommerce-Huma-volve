@@ -10,6 +10,12 @@ import '../features/auth/domain/usecases/login_usecase.dart';
 import '../features/auth/domain/usecases/logout_usecase.dart';
 import '../features/auth/domain/usecases/register_usecase.dart';
 import '../features/auth/presentation/cubit/auth_cubit.dart';
+import '../features/home/data/datasources/home_remote_datasource.dart';
+import '../features/home/data/repositories/home_repository_impl.dart';
+import '../features/home/domain/repositories/home_repository.dart';
+import '../features/home/domain/usecases/get_categories_usecase.dart';
+import '../features/home/domain/usecases/get_products_usecase.dart';
+import '../features/home/presentation/cubit/home_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -42,6 +48,22 @@ void setupDependencies() {
       loginUseCase: sl(),
       registerUseCase: sl(),
       logoutUseCase: sl(),
+    ),
+  );
+
+  // Home
+  sl.registerLazySingleton<HomeRemoteDataSource>(
+    () => HomeRemoteDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<HomeRepository>(
+    () => HomeRepositoryImpl(remote: sl()),
+  );
+  sl.registerLazySingleton(() => GetCategoriesUseCase(sl()));
+  sl.registerLazySingleton(() => GetProductsUseCase(sl()));
+  sl.registerFactory(
+    () => HomeCubit(
+      getCategoriesUseCase: sl(),
+      getProductsUseCase: sl(),
     ),
   );
 }
