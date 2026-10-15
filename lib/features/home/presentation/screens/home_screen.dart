@@ -32,13 +32,29 @@ class _HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<_HomeView> {
   final _searchController = TextEditingController();
+  final _scrollController = ScrollController();
   Timer? _debounce;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
 
   @override
   void dispose() {
     _debounce?.cancel();
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    final position = _scrollController.position;
+    if (position.pixels >= position.maxScrollExtent - 300) {
+      context.read<HomeCubit>().loadMore();
+    }
   }
 
   void _onSearchChanged(String value) {
@@ -63,6 +79,7 @@ class _HomeViewState extends State<_HomeView> {
                     1;
 
             return CustomScrollView(
+              controller: _scrollController,
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
@@ -179,13 +196,33 @@ class _HomeViewState extends State<_HomeView> {
                   ),
                 ),
                 ..._buildBody(context, state),
-                const SliverToBoxAdapter(child: SizedBox(height: 24)),
+                SliverToBoxAdapter(child: _buildFooter(state)),
               ],
             );
           },
         ),
       ),
     );
+  }
+
+  Widget _buildFooter(HomeState state) {
+    if (state.isLoadingMore) {
+      return const Padding(
+        padding: EdgeInsets.all(24),
+        child: Center(
+          child: CircularProgressIndicator(color: AppTheme.primary),
+        ),
+      );
+    }
+    if (state.status == HomeStatus.success &&
+        state.hasReachedMax &&
+        state.products.isNotEmpty) {
+      return const Padding(
+        padding: EdgeInsets.all(24),
+        child: Center(child: Text('No more products')),
+      );
+    }
+    return const SizedBox(height: 24);
   }
 
   List<Widget> _buildBody(BuildContext context, HomeState state) {
@@ -257,4 +294,3 @@ class _HomeViewState extends State<_HomeView> {
     }
   }
 }
-

@@ -27,10 +27,17 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<Either<Failure, List<ProductEntity>>> getProducts({
     int? categoryId,
     String? title,
+    int offset = 0,
+    int limit = 10,
   }) async {
     try {
       return Right(
-        await remote.getProducts(categoryId: categoryId, title: title),
+        await remote.getProducts(
+          categoryId: categoryId,
+          title: title,
+          offset: offset,
+          limit: limit,
+        ),
       );
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

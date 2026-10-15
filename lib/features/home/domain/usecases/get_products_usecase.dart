@@ -11,6 +11,13 @@ class GetProductsUseCase {
   Future<Either<Failure, List<ProductEntity>>> call({
     int? categoryId,
     String? title,
+    int offset = 0,
+    int limit = 10,
   }) =>
-      repository.getProducts(categoryId: categoryId, title: title);
+      repository.getProducts(
+        categoryId: categoryId,
+        title: title,
+        offset: offset,
+        limit: limit,
+      );
 }

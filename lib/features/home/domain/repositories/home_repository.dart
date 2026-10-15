@@ -9,5 +9,7 @@ abstract class HomeRepository {
   Future<Either<Failure, List<ProductEntity>>> getProducts({
     int? categoryId,
     String? title,
+    int offset = 0,
+    int limit = 10,
   });
 }

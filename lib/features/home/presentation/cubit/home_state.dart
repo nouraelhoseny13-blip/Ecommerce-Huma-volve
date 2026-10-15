@@ -12,6 +12,8 @@ class HomeState extends Equatable {
   final int? selectedCategoryId;
   final String query;
   final String? errorMessage;
+  final bool isLoadingMore;
+  final bool hasReachedMax;
 
   const HomeState({
     this.status = HomeStatus.loading,
@@ -20,6 +22,8 @@ class HomeState extends Equatable {
     this.selectedCategoryId,
     this.query = '',
     this.errorMessage,
+    this.isLoadingMore = false,
+    this.hasReachedMax = false,
   });
 
   HomeState copyWith({
@@ -30,6 +34,8 @@ class HomeState extends Equatable {
     bool clearCategory = false,
     String? query,
     String? errorMessage,
+    bool? isLoadingMore,
+    bool? hasReachedMax,
   }) {
     return HomeState(
       status: status ?? this.status,
@@ -39,10 +45,20 @@ class HomeState extends Equatable {
           clearCategory ? null : (selectedCategoryId ?? this.selectedCategoryId),
       query: query ?? this.query,
       errorMessage: errorMessage,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [status, products, categories, selectedCategoryId, query, errorMessage];
+  List<Object?> get props => [
+        status,
+        products,
+        categories,
+        selectedCategoryId,
+        query,
+        errorMessage,
+        isLoadingMore,
+        hasReachedMax,
+      ];
 }
