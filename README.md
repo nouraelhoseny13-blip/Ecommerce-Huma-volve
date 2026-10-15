@@ -67,3 +67,29 @@ Test account: `john@mail.com` / `changeme`
 ## Packages
 
 http, shared_preferences, flutter_bloc, equatable, get_it, dartz
+
+## Day 4 – Implement Pagination in the Home Feature
+
+### Task Overview
+Implemented pagination in the Home feature to load products incrementally as the user scrolls.
+
+### Features
+- Load products in pages.
+- Fetch more products when scrolling near the bottom.
+- Append new products to the existing list.
+- Prevent duplicate pagination requests.
+- Handle loading and error states.
+- Reload products when searching or selecting a category.
+
+### Technologies Used
+- Flutter
+- Dart
+- Cubit / Flutter Bloc
+- REST API
+
+### Git Branch
+`day-4-pagination`
+
+### Status
+Completed
+
