@@ -93,3 +93,37 @@ Implemented pagination in the Home feature to load products incrementally as the
 ### Status
 Completed
 
+
+## Day 5 – Implement Deep Linking in Product Details
+
+### Task Overview
+
+Implemented deep linking to open the Product Details screen directly using a product-specific URI.
+
+### Features
+
+- Added `app_links` to handle incoming deep links.
+- Configured Android intent filters for the `humavolve` URI scheme.
+- Handled initial links and incoming links while the app is running.
+- Extracted the product ID from the URI.
+- Opened the corresponding Product Details screen.
+- Handled invalid or unknown product IDs.
+
+### Technologies Used
+
+- Flutter
+- Dart
+- `app_links`
+- Android Deep Links
+
+### Example Deep Link
+
+`humavolve://product/1`
+
+### Git Branch
+
+`day-5-deep-linking`
+
+### Status
+
+Implementation committed and pushed. `flutter analyze` passed. Android device testing is pending.
